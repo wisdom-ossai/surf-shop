@@ -1,25 +1,20 @@
 const express = require('express');
 const router = express.Router();
+const asyncHandler = require('express-async-handler');
+
+const { getPosts, getNewPost, createPost, showNewPost } = require('../controllers/post.controller')
 
 /* GET Posts index */
-router.get('/', (req, res, next) => {
-  res.render('', { title: 'Surf Shop | Posts' });
-});
+router.get('/', asyncHandler(getPosts));
 
 /* GET posts new */
-router.get('/new', (req, res, next) => {
-  res.render('', { title: 'Surf Shop | Posts' });
-});
+router.get('/new', asyncHandler(getNewPost));
 
 /* Post posts index */
-router.post('/', (req, res, next) => {
-  res.render('', { title: 'Surf Shop | Posts' });
-});
+router.post('/', asyncHandler(createPost));
 
 /* Get Post show */
-router.get('/:id', (req, res, next) => {
-  res.render('/', { title: 'Surf Shop | Posts' });
-});
+router.get('/:id', asyncHandler(showNewPost));
 
 /* Get Post Edit */
 router.get('/:id/edit ', (req, res, next) => {

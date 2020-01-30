@@ -6,6 +6,7 @@ const logger = require('morgan');
 const passport = require('passport');
 const session = require('express-session');
 const mongoose = require('mongoose');
+const expressEjsLayouts = require('express-ejs-layouts');
 
 const indexRouter = require('./routes/index');
 const postsRouter = require('./routes/posts.route');
@@ -25,7 +26,7 @@ mongoose.connect('mongodb://localhost:27017/surf-shop', { useNewUrlParser: true,
     console.error(err);
   });
 
-
+app.use(expressEjsLayouts);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
