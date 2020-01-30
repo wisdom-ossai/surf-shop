@@ -3,13 +3,28 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const passport = require('passport');
+const session = require('express-session');
+const mongoose = require('mongoose');
 
 const indexRouter = require('./routes/index');
 const postsRouter = require('./routes/posts.route');
 const reviewsRouter = require('./routes/reviews.route');
-const usersRouter = require('./routes/users');
+const usersRouter = require('./routes/users.route');
+
+const User = require('./models/user.model');
 
 const app = express();
+
+// Connect to mongoDB
+mongoose.connect('mongodb://localhost:27017/surf-shop', { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+  console.log('connected to mongo!')
+  })
+  .catch(err => {
+    console.error(err);
+  });
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -20,6 +35,23 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Configure Session
+app.use(
+  session({
+    secret: 'this is going to be my secret stored in .env file',
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+// Configure Passport
+passport.use(User.createStrategy());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 
 app.use('/', indexRouter);
 app.use('/posts', postsRouter);

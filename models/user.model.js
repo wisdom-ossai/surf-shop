@@ -1,16 +1,17 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema();
+const Schema = mongoose.Schema;
 const passportLocalMongoose = require('passport-local-mongoose');
 
 const UserSchema = new Schema({
     email: { type: String },
-    password: { type: String },
     username: { type: String },
     image: { type: String },
-    posts: {
+    posts: [
+        {
         type: Schema.Types.ObjectId,
         ref: 'Post'
-    }
+        }
+    ]
 });
 
 UserSchema.plugin(passportLocalMongoose);
