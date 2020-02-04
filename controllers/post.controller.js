@@ -18,5 +18,21 @@ module.exports = {
         let post = await Post.findById(req.params.id);
         res.render('posts/show', { post });
 
+    },
+
+    editPost: async (req, res, next) => {
+        const post = await Post.findByIdAndUpdate(req.params.id, req.body.post, {new: true});
+        await res.redirect(`/posts/${post._id}`);
+
+    },
+
+    getEditPage: async (req, res, next) => {
+        const post = await Post.findById(req.params.id);
+        res.render('posts/edit', { post })
+    },
+
+    deletePost: async (req, res, next) => {
+        const post = await Post.findByIdAndRemove(req.params.id);
+        res.redirect('/posts')
     }
 }

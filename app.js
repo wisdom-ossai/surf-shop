@@ -7,6 +7,9 @@ const passport = require('passport');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const expressEjsLayouts = require('express-ejs-layouts');
+const methodOverride = require('method-override');
+const router = express.Router();
+
 
 const indexRouter = require('./routes/index');
 const postsRouter = require('./routes/posts.route');
@@ -33,7 +36,7 @@ app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -52,6 +55,9 @@ app.use(passport.session());
 passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+app.use(
+  methodOverride('_method')
+);
 
 
 app.use('/', indexRouter);
