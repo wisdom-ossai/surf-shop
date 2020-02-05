@@ -23,7 +23,7 @@ router.get('/:id', asyncHandler(showNewPost));
 router.get('/:id/edit', asyncHandler(getEditPage));
 
 /* Update */
-router.put('/:id', asyncHandler(editPost));
+router.put('/:id', uploads.array('images', 4), asyncHandler(editPost));
 
 /* Delete */
 router.delete('/:id', asyncHandler(deletePost));
