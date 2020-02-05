@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const asyncHandler = require('express-async-handler');
+const multer = require('multer');
+const uploads = multer({
+    'dest': 'uploads/'})
 
 const { getPosts, getNewPost, createPost, showNewPost, editPost, getEditPage, deletePost } = require('../controllers/post.controller')
 
@@ -11,7 +14,7 @@ router.get('/', asyncHandler(getPosts));
 router.get('/new', asyncHandler(getNewPost));
 
 /* Post posts index */
-router.post('/', asyncHandler(createPost));
+router.post('/', uploads.array('images', 4), asyncHandler(createPost));
 
 /* Get Post show */
 router.get('/:id', asyncHandler(showNewPost));
