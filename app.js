@@ -22,7 +22,7 @@ const User = require('./models/user.model');
 const app = express();
 
 // Connect to mongoDB
-mongoose.connect('mongodb://localhost:27017/surf-shop', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://localhost:27017/surf-shop-mapbox', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
   console.log('connected to mongo!')
   })
