@@ -2,7 +2,7 @@
 #map {
   position: relative !important;
   width: 100% !important;
-  height: 150px;
+  height: 400px;
 }
 
 .marker {
@@ -16,6 +16,7 @@
 
 .mapboxgl-popup {
   max-width: 200px;
+  color: black;
 }
 
 .mapboxgl-popup-content {
