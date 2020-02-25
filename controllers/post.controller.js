@@ -70,13 +70,28 @@ module.exports = {
             }
         }
 
-        post.title = req.body.post.title;
-        post.description = req.body.post.description;
-        post.price = req.body.post.price;
-        post.location = req.body.post.location;
+        if (req.body.post && post) {
+            if (req.body.post.location !== post.location) {
 
-        post.save();
-        await res.redirect(`/posts/${post._id}`);
+                let response = await geocodingClient
+                    .forwardGeocode({
+                        query: req.body.post.location,
+                        limit: 1
+                    })
+                    .send()
+                post.coordinates = response.body.features[0].geometry.coordinates;
+                post.location = req.body.post.location;
+            }
+
+            req.body.post.title !== post.title ? post.title = req.body.post.title : null;
+            req.body.post.description !== post.description ? post.description = req.body.post.description : null;
+            req.body.post.price !== post.price ? post.price = req.body.post.price : null;
+
+            post.save();
+            await res.redirect(`/posts/${post._id}`);
+        } else {
+            await res.redirect(`/error`);
+        }
 
     },
 
