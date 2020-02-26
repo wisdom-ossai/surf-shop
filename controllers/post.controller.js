@@ -94,9 +94,11 @@ module.exports = {
             req.body.post.price !== post.price ? post.price = req.body.post.price : null;
 
             post.save();
+            req.session.success = `Well done! You successfully updated ${post.title}`;
+            await res.redirect(`posts/${post._id}`);
             await res.redirect(`/posts/${post._id}`);
         } else {
-            await res.redirect(`/error`);
+            req.session.error = `Well done! You successfully updated ${post.title}`;
         }
 
     },

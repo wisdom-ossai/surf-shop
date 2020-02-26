@@ -1,29 +1,15 @@
 const express = require('express');
-const router = express.Router({mergeParams: true});
-
-/* GET Reviews index */
-router.get('/', (req, res, next) => {
-  res.render('', { title: 'Surf Shop | Reviews' });
-});
+const router = express.Router({ mergeParams: true });
+const asyncHandler = require('express-async-handler');
+const { createReview, updateReview, deleteReview } = require('../controllers/review.controller')
 
 /* Post Reviews index */
-router.post('/', (req, res, next) => {
-  res.render('', { title: 'Surf Shop | Reviews' });
-});
-
-/* Get Post Edit */
-router.get('/:review_id/edit ', (req, res, next) => {
-  res.render('', { title: 'Surf Shop | Reviews' });
-});
+router.post('/', asyncHandler(createReview));
 
 /* Update */
-router.put('/:review_id ', (req, res, next) => {
-  res.render('', { title: 'Surf Shop | Reviews' });
-});
+router.put('/:review_id ', asyncHandler(updateReview));
 
 /* Delete */
-router.delete('/:review_id', (req, res, next) => {
-  res.render('', { title: 'Surf Shop | Reviews' });
-});
+router.delete('/:review_id', asyncHandler(deleteReview));
 
 module.exports = router;
