@@ -37,7 +37,13 @@ module.exports = {
             .send()
         req.body.coordinates = response.body.features[0].geometry.coordinates;
         let post = await Post.create(req.body);
-        await res.redirect(`posts/${post._id}`);
+        if (post) {
+            req.session.success =
+              'Well done! You successfully created a post';
+            await res.redirect(`posts/${post._id}`);
+        } else {
+            req.session.success = 'Failed to create post. Please check your inputs and try again';
+        }
     },
 
     showNewPost: async (req, res, next) => {

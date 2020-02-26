@@ -3,11 +3,16 @@
 <% include ./partials/head %>
 <body>
     <% include ./partials/navbar %>
+    <div class="mt-2">
+        <% include ./partials/flash-message %>
+    </div>
     <%- body %>
 
     <script src="/vendor/jquery/jquery.js"></script>
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="/vendor/bootstrap-4.4.1-dist/js/bootstrap.min.js"></script>
     <script src="/vendor/mapbox/js/mapbox.js"></script>
+    <script src="/javascripts/post-show.js"></script>
+    <script src="/javascripts/post-edit.js"></script>
 </body>
 </html>
