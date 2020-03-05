@@ -1,3 +1,60 @@
+<style>
+ .rating {
+      float:left;
+    }
+
+    /* :not(:checked) is a filter, so that browsers that don’t support :checked don’t 
+      follow these rules. Every browser that supports :checked also supports :not(), so
+      it doesn’t make the test unnecessarily selective */
+    .rating:not(:checked) > input {
+        position:absolute;
+        top:-9999px;
+        clip:rect(0,0,0,0);
+    }
+
+    .rating:not(:checked) > label {
+        float:right;
+        width:1em;
+        /* padding:0 .1em; */
+        overflow:hidden;
+        white-space:nowrap;
+        cursor:pointer;
+        font-size:300%;
+        /* line-height:1.2; */
+        color:#ddd;
+    }
+
+    .rating:not(:checked) > label:before {
+        content: '★ ';
+    }
+
+    .rating > input:checked ~ label {
+        color: dodgerblue;
+        
+    }
+
+    .rating:not(:checked) > label:hover,
+    .rating:not(:checked) > label:hover ~ label {
+        color: dodgerblue;
+        
+    }
+
+    .rating > input:checked + label:hover,
+    .rating > input:checked + label:hover ~ label,
+    .rating > input:checked ~ label:hover,
+    .rating > input:checked ~ label:hover ~ label,
+    .rating > label:hover ~ input:checked ~ label {
+        color: dodgerblue;
+        
+    }
+
+    .rating > label:active {
+        position:relative;
+        top:2px;
+        left:2px;
+    }
+</style>
+
 <div class="container">
     <div class="modal fade" id="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -33,46 +90,93 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">Location: <%= post.location %></li>
             <li class="list-group-item">
-                <% post.images.forEach(function(image) { %>
-            <img src="<%= image.url %>" alt="" class="img-fluid post-image" />
-            <% }); %>
+                <% if (post.images.length > 0) { %>
+                    <% post.images.forEach(function(image) { %>
+                    <img src="<%= image.url %>" alt="" class="img-fluid post-image" />
+                    <% }); %>
+                <% } else { %>
+                    <h4 class="mt-5">No image for this post</h4>
+                <% } %>
             </li>
             <li class="list-group-item">Price: <%= post.price %></li>
         </ul>
         <div class="card-body">
             <a class="btn btn-primary" type="button" href="/posts/<%= post._id %>/edit">Edit Post</a>
             <button class="btn btn-outline-danger" type="submit" data-toggle="modal" data-target="#dialog">Delete</button>
+            <button class="btn btn-outline-primary pull-right" type="submit" data-toggle="modal" data-target="#review-form">Review</button>
         </div>
         <div class="card-footer text-muted">
             posted: 2 days ago
         </div>
     </div>
-    <h2>Reviews</h2>
-    <h3>Create a Review</h3>
-    
-    <form action="<%= `/posts/reviews/${post._id}` %>" method="POST">
-        <div class="form-group row">
-            <label for="body" class="col-sm-2">Body</label>
-            <div class="col-sm-10">
-                <textarea class="form-control" id="body" name="body" rows="3"></textarea>
+    <div class="review mb-5">
+        <h3>Reviews</h3>
+        <% if (post.reviews.length > 0) { %>
+            <ul class="list-group" >
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span class="font-weight-bold">Review Content</span>
+                    <span class="font-weight-bold">Ratings</span>
+                </li>
+                <% post.reviews.forEach(function(review) { %>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <%= review.content %>: 
+                    <span class="badge badge-primary badge-pill"><%= review.rating %></span>
+                </li>
+                <% }); %>
+            </ul>
+        <% } else { %>
+            <h4 class="mt-5">No reviews for this post yet</h4>
+        <% } %>
+    </div>
+    <div class="modal fade" id="review-form">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary">Create a Review</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="<%= `/posts/reviews/${post._id}` %>" method="POST">
+                        <div class="form-group row">
+                            <label for="body" class="col-sm-2">Body</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" id="body" name="content" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-2 pt-4">
+                                Rating
+                            </div>
+                            <div class="col-sm-10">
+                                <div class="rating">
+                                    <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="Excellent">5 stars</label>
+                                    <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="Very Good">4
+                                        stars</label>
+                                    <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="Good">3
+                                        stars</label>
+                                    <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="Fair">2
+                                        stars</label>
+                                    <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="Bad">1
+                                        star</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="location" class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10">
+                                <button type="submit" class="btn btn-success btn-block text-uppercase">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-        <div class="form-group row">
-            <label for="rating" class="col-sm-2 col-form-label">Rating</label>
-            <div class="col-sm-10">
-                <input type="number" class="form-control" id="rating" name="rating" placeholder="Rate this post">
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="location" class="col-sm-2 col-form-label"></label>
-            <div class="col-sm-10">
-                <button type="submit" class="btn btn-success btn-block text-uppercase">Submit</button>
-            </div>
-        </div>
-    </form>
-
+    </div>
 </div>
 
 <script>
     const post = <%- JSON.stringify(post) %>;
+
 </script>

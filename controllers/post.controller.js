@@ -47,7 +47,11 @@ module.exports = {
     },
 
     showNewPost: async (req, res, next) => {
-        let post = await Post.findById(req.params.id);
+        let post = await Post.findById(req.params.id).populate({
+            path: 'reviews',
+            options: { sort: {'_id': -1} }
+        });
+        console.log(post);
         res.render('posts/show', { post });
 
     },
@@ -98,7 +102,7 @@ module.exports = {
             await res.redirect(`posts/${post._id}`);
             await res.redirect(`/posts/${post._id}`);
         } else {
-            req.session.error = `Well done! You successfully updated ${post.title}`;
+            req.session.error = `Ouch! Data could not be updated for ${post.title}. Something went wrong`;
         }
 
     },

@@ -76,14 +76,9 @@ app.use('/posts', postsRouter);
 app.use('/posts/reviews/:id', reviewsRouter);
 app.use('/users', usersRouter);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
-
 // error handler
 app.use(function(err, req, res, next) {
-  console.log(err);
+  console.log('testing err', err);
   req.session.error = err.message;
   res.redirect('back');
 });
