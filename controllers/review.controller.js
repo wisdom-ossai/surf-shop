@@ -5,6 +5,7 @@ module.exports = {
     createReview: async (req, res, next) => {
         let post = await Post.findById(req.params.id);
         let initialPostLength = await post.reviews.length
+        req.body.author = req.user._id;
         let review = await Review.create(req.body);
         post.reviews.push(review);
         let saved = await post.save();
@@ -18,7 +19,24 @@ module.exports = {
     },
 
     updateReview: async (req, res, next) => {
+        const post = await Post.findById(req.params.id);
+        const review = await Review.findById(req.params.review_id);
+        req.body.author = req.user._id;
+        req.body.content !== review.content ? review.content = req.body.content : null;
+        req.body.rating !== review.rating ? review.rating = req.body.rating : null;
 
+        review.save();
+        req.session.success = `Well done! You successfully updated review`;
+        await res.redirect(`posts/${req.params.id}`);
+        // post.reviews.push(review);
+        // let saved = await post.save();
+        // if (initialPostLength < saved.reviews.length) {
+        //     req.session.success = 'Well done! You successfully created a review for this post';
+        //     res.redirect(`/posts/${post._id}`);
+        // } else {
+        //     req.session.error = 'Ouch! Review for this post could not be created. Something went wrong';
+        //     res.redirect(`/posts/${post._id}`);
+        // }
     },
 
     deleteReview: async (req, res, next) => {

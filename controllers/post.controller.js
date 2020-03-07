@@ -49,7 +49,11 @@ module.exports = {
     showNewPost: async (req, res, next) => {
         let post = await Post.findById(req.params.id).populate({
             path: 'reviews',
-            options: { sort: {'_id': -1} }
+            options: { sort: { '_id': -1 } },
+            populate: {
+                path: 'author',
+                model: 'User'
+            }
         });
         console.log(post);
         res.render('posts/show', { post });
@@ -99,8 +103,7 @@ module.exports = {
 
             post.save();
             req.session.success = `Well done! You successfully updated ${post.title}`;
-            await res.redirect(`posts/${post._id}`);
-            await res.redirect(`/posts/${post._id}`);
+            await res.redirect(`${post._id}`);
         } else {
             req.session.error = `Ouch! Data could not be updated for ${post.title}. Something went wrong`;
         }

@@ -19,3 +19,21 @@ new mapboxgl.Marker(el)
     )
   )
   .addTo(map);
+
+$(document).ready(function () {
+  $('.review-id').hide();
+  $('.post-id').hide();
+  $(function () {
+    $('.review-container').on('click', '#edit-review', function ($event) {
+      console.log($event.target.parentNode.parentNode.parentNode);
+      var container = $event.target.parentNode.parentNode.parentNode;
+      var reviewId = container.children[1].textContent
+      var postId = container.children[2].textContent
+      var reviewContent = container.children[3].textContent
+      var rating = container.children[5].textContent.slice(7).trim();
+      $("#content").val(reviewContent);
+      $(":radio[value=" + rating + "]").attr('checked', true);
+      $("form#main-form").attr('action', '/posts/reviews/' + postId + '/' + reviewId + '?_method=PUT');
+    })
+  })
+})

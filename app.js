@@ -22,7 +22,7 @@ const User = require('./models/user.model');
 const app = express();
 
 // Connect to mongoDB
-mongoose.connect('mongodb://localhost:27017/surf-shop-mapbox', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://localhost:27017/surf-shop', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
   console.log('connected to mongo!')
   })
@@ -63,6 +63,12 @@ app.use(
 app.use((req, res, next) => {
   res.locals.title = 'Surf Shop';
 
+  req.user = {
+    _id: '5e628d7738f8152a4c3f5d31',
+    username: 'chuks',
+  }
+
+  res.locals.currentUser = req.user;
   res.locals.success = req.session.success || '';
   delete req.session.success;
 

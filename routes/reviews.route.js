@@ -7,7 +7,7 @@ const { createReview, updateReview, deleteReview } = require('../controllers/rev
 router.post('/', asyncHandler(createReview));
 
 /* Update */
-router.put('/:review_id ', asyncHandler(updateReview));
+router.put('/:review_id', asyncHandler(updateReview));
 
 /* Delete */
 router.delete('/:review_id', asyncHandler(deleteReview));
