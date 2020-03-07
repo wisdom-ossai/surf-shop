@@ -57,10 +57,10 @@
     .review-container {
         transition: all 0.8s ;
     }
-    .review-container :nth-child(1) {
+    .review-container > :first-child {
         visibility: hidden; 
     }
-    .review-container:hover :nth-child(1) {
+    .review-container:hover > :first-child {
         visibility:visible;
     }
     .review-container:hover {
@@ -83,7 +83,7 @@
                     <p>Click continue if you are sure you want to delete this item.</p>
                 </div>
                 <div class="modal-footer">
-                    <form action="<%= `/posts/${post._id}?_method=DELETE` %>" method="POST">
+                    <form id="delete-form" action="<%= `/posts/${post._id}?_method=DELETE` %>" method="POST">
                         <button type="submit" class="btn btn-primary">Continue</button>
                     </form>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -131,10 +131,10 @@
                 <div class="container mb-3 border-bottom border-dark review-container">
                     <div class="d-flex justify-content-end">
                         <a href="#" id="edit-review" class="mx-2 text-secondary edit-review" data-toggle="modal" data-target="#review-form"><i class="fa fa-pencil"></i></a>
-                        <a href="#" class="mx-3 text-danger"><i class="fa fa-trash-o"></i></a>
+                        <a href="#" class="mx-3 text-danger delete-icon" data-toggle="modal" data-target="#dialog"><i class="fa fa-trash-o"></i></a>
                     </div>
-                    <p class="lead review-id"><%= review._id %></p>
-                    <p class="lead post-id"><%= post._id %></p>
+                    <p class="lead review-id d-none"><%= review._id %></p>
+                    <p class="lead post-id d-none"><%= post._id %></p>
                     <p class="lead"><%= review.content %></p>
                     <p class="lead">Reviewed by: <%= review.author.username %></p>
                     <%if (review.rating === 5) { %>

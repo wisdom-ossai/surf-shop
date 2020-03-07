@@ -27,19 +27,17 @@ module.exports = {
 
         review.save();
         req.session.success = `Well done! You successfully updated review`;
-        await res.redirect(`posts/${req.params.id}`);
-        // post.reviews.push(review);
-        // let saved = await post.save();
-        // if (initialPostLength < saved.reviews.length) {
-        //     req.session.success = 'Well done! You successfully created a review for this post';
-        //     res.redirect(`/posts/${post._id}`);
-        // } else {
-        //     req.session.error = 'Ouch! Review for this post could not be created. Something went wrong';
-        //     res.redirect(`/posts/${post._id}`);
-        // }
+        await res.redirect(`/posts/${req.params.id}`);
     },
 
     deleteReview: async (req, res, next) => {
 
+        req.body.author = req.user._id;
+        const post = await Post.findById(req.params.id);
+        const review = await Review.findById(req.params.review_id);
+
+        review.remove();
+        req.session.success = `Well done! You successfully deleted review`;
+        await res.redirect(`/posts/${req.params.id}`);
     }
 }
