@@ -43,10 +43,6 @@ $(document).ready(function () {
       var container = $event.target.parentNode.parentNode.parentNode;
       var reviewId = container.children[1].textContent
       var postId = container.children[2].textContent
-      // var reviewContent = container.children[3].textContent
-      // var rating = container.children[5].textContent.slice(7).trim();
-      // $("#content").val(reviewContent);
-      // $(":radio[value=" + rating + "]").attr('checked', true);
       $("form#delete-form").attr('action', '/posts/reviews/' + postId + '/' + reviewId + '?_method=DELETE');
     })
   })

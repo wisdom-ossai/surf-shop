@@ -1,4 +1,4 @@
-<div class="container mt-5">
+<!-- <div class="container mt-5">
     <div class="row card-container justify-content-center align-items-center">
         <%if (posts.length > 0) { %>
             <% posts.forEach(function(post) { %>
@@ -27,7 +27,67 @@
             </div>
             <% }); %>
         <% } else { %>
-            <h1 class="mt-5">No Data Available!!!</h1>
+            <h1 class="mt-5"></h1>
             <% } %>
     </div>
+</div> -->
+
+<style>
+      .review-container {
+        transition: all 0.8s ;
+    }
+    .review-container > :first-child {
+        visibility: hidden; 
+    }
+    .review-container:hover > :first-child {
+        visibility:visible;
+    }
+    .review-container:hover {
+        background-color: rgba(238,232,213,0.125);;
+        
+    }
+</style>
+
+<div class="container">
+    <div class="review mb-5">
+        <h2 class="mb-4">All Posts</h2>
+        <% 
+            const formatDate = (dateInput) => {
+                const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+                const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thurs', 'Fri', 'Sat']
+                const formatted = days[dateInput.getDay()] + " " + dateInput.getDate() + " " + months[dateInput.getMonth()] + ", " + dateInput.getFullYear()
+                return formatted;
+            }
+    %>
+        <% if (posts.length > 0) { %>
+        <div class="review-content">
+            <% posts.forEach(function(post) { %>
+            <div class="container mb-3 border-bottom border-dark review-container p-4">
+                <div class="d-flex justify-content-end">
+                    <a href="/posts/<%= post._id %>/edit" id="edit-review" class="mx-2 text-secondary edit-post"><i class="fa fa-pencil-square-o"></i></a>
+                    <a href="/posts/<%= post._id %>" class="mx-3 text-secondary view-details"><i class="fa fa-desktop"></i></a>
+                </div>
+                <p class="lead review-id d-none"><%= post._id %></p>
+                <h3 class=""><%= post.title %></h3>
+                <p class="lead"><%= post.description %></p>
+                <p class="lead">Location: <%= post.location %></p>
+                <p class="lead">Number of Reviews: &nbsp; <%= post.reviews.length %></p>
+                <div class="m-4">
+                    <% post.images.forEach(function(image) { %>
+                    <img src="<%= image.url %>" alt="" class="img-fluid post-image" />
+                    <% }); %>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <div>Last Updated: <%= " " + formatDate(post.updatedAt) %> </div>
+                    <div>Created on: <%= formatDate(post.createdAt) %> </div>
+                </div>
+            </div>
+            <% }); %>
+        </div>
+    
+        <% } else { %>
+        <h4 class="mt-5">No Data Available!!!</h4>
+        <% } %>
+    </div>
 </div>
+

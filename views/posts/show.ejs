@@ -125,14 +125,24 @@
     </div>
     <div class="review mb-5">
         <h3 class="mb-4">Reviews</h3>
+        <% 
+        const formatDate = (dateInput) => {
+            const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thurs', 'Fri', 'Sat']
+            const formatted = days[dateInput.getDay()] + " " + dateInput.getDate() + " " + months[dateInput.getMonth()] + ", " + dateInput.getFullYear()
+            return formatted;
+        }
+%>
         <% if (post.reviews.length > 0) { %>
             <div class="review-content">
                 <% post.reviews.forEach(function(review) { %>
-                <div class="container mb-3 border-bottom border-dark review-container">
+                <div class="container mb-3 border-bottom border-dark review-container p-3">
+                    <% if(review.author._id.equals(currentUser._id)) { %>
                     <div class="d-flex justify-content-end">
                         <a href="#" id="edit-review" class="mx-2 text-secondary edit-review" data-toggle="modal" data-target="#review-form"><i class="fa fa-pencil"></i></a>
                         <a href="#" class="mx-3 text-danger delete-icon" data-toggle="modal" data-target="#dialog"><i class="fa fa-trash-o"></i></a>
                     </div>
+                    <% } %>
                     <p class="lead review-id d-none"><%= review._id %></p>
                     <p class="lead post-id d-none"><%= post._id %></p>
                     <p class="lead"><%= review.content %></p>
@@ -151,7 +161,11 @@
                     <% } %>
                     <%if (review.rating === 1) { %>
                     <p class="">Rating: <span class="badge badge-danger badge-pill"><%= review.rating %></span></p>
-                    <% } %>  
+                    <% } %>
+                    <div class="d-flex justify-content-between">
+                        <div>Last Updated: <%= " " + formatDate(review.updatedAt) %> </div>
+                        <div>Created on: <%= formatDate(review.createdAt) %> </div>
+                    </div>  
                 </div>
                 <% }); %>
             </div>
@@ -209,5 +223,5 @@
 </div>
 
 <script>
-    const post = <%- JSON.stringify(post) %>;
+    const post = <%- JSON.stringify(post) %>
 </script>

@@ -6,7 +6,7 @@ const UserSchema = new Schema({
     email: { type: String },
     username: { type: String },
     image: { type: String }
-});
+}, {timestamps: true});
 
 UserSchema.plugin(passportLocalMongoose);
 

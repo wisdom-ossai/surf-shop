@@ -32,7 +32,7 @@
                             <div class="mt-2">
                                 <% post.images.forEach(function(image, i) { %>
                                     <img src="<%= image.url %>" alt="" class="img-fluid post-image m-4"/>
-                                    <input type="checkbox" value="<%= image.public_id %>" id="img<%= i %>" name="imagesDelete[]" class="imageDeleteCheckbox">
+                                    <input type="checkbox" value="<%= image.public_id %>" id="img<%= i %>" name="imagesDelete[]" class="imageDeleteCheckbox" title="Please check this box you want to remove this image">
                                <% }) %>
                             </div>
                         </div>

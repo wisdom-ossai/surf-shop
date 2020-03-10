@@ -9,9 +9,12 @@ cloudinary.config({
   api_key: '443895348311813',
   api_secret: process.env.CLOUDINARY_SECRET
 });
+
+
 module.exports = {
     getPosts: async (req, res, next) => {
         let posts = await Post.find({})
+        
         res.render('posts', { posts });
     },
     
@@ -55,7 +58,7 @@ module.exports = {
                 model: 'User'
             }
         });
-        console.log(post);
+        
         res.render('posts/show', { post });
 
     },
@@ -121,6 +124,7 @@ module.exports = {
             await cloudinary.v2.uploader.destroy(image.public_id);
         }
         await post.remove();
+        req.session.success = `Well done! You successfully deleted a post`;
         res.redirect('/posts')
     }
 }
