@@ -113,6 +113,7 @@
                 <% } %>
             </li>
             <li class="list-group-item">Price: <%= post.price %></li>
+            <li class="list-group-item">Average Rating: <%= post.avgRating %></li>
         </ul>
         <div class="card-body">
             <a class="btn btn-primary" type="button" href="/posts/<%= post._id %>/edit">Edit Post</a>
@@ -136,11 +137,11 @@
         <% if (post.reviews.length > 0) { %>
             <div class="review-content">
                 <% post.reviews.forEach(function(review) { %>
-                <div class="container mb-3 border-bottom border-dark review-container p-3">
+                <div class="review-container container mb-3 border-bottom border-dark p-3">
                     <% if(review.author._id.equals(currentUser._id)) { %>
                     <div class="d-flex justify-content-end">
-                        <a href="#" id="edit-review" class="mx-2 text-secondary edit-review" data-toggle="modal" data-target="#review-form"><i class="fa fa-pencil"></i></a>
-                        <a href="#" class="mx-3 text-danger delete-icon" data-toggle="modal" data-target="#dialog"><i class="fa fa-trash-o"></i></a>
+                        <a href="#" id="edit-review" class="mx-2 text-secondary edit-review-icon" data-toggle="modal" data-target="#review-form"><i class="fa fa-pencil"></i></a>
+                        <a href="#" class="mx-3 text-danger delete-review-icon" data-toggle="modal" data-target="#dialog"><i class="fa fa-trash-o"></i></a>
                     </div>
                     <% } %>
                     <p class="lead review-id d-none"><%= review._id %></p>

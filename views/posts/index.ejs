@@ -72,8 +72,8 @@
             <% posts.docs.forEach(function(post) { %>
             <div class="container mb-3 border-bottom border-dark review-container p-4">
                 <div class="d-flex justify-content-end">
-                    <a href="/posts/<%= post._id %>/edit" id="edit-review" class="mx-2 text-secondary edit-post"><i class="fa fa-pencil-square-o"></i></a>
-                    <a href="/posts/<%= post._id %>" class="mx-3 text-secondary view-details"><i class="fa fa-desktop"></i></a>
+                    <a href="/posts/<%= post._id %>/edit" id="edit-review" class="mx-2 text-secondary edit-post" title="Click to go to the edit form"><i class="fa fa-pencil-square-o"></i></a>
+                    <a href="/posts/<%= post._id %>" class="mx-3 text-secondary view-details" title="View details of post and perform other actions"><i class="fa fa-desktop"></i></a>
                 </div>
                 <p class="lead review-id d-none"><%= post._id %></p>
                 <h3 class=""><%= post.title %></h3>

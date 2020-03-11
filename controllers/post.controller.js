@@ -61,7 +61,8 @@ module.exports = {
             }
         });
         
-        res.render('posts/show', { post });
+        const floorRating = post.calculateAvgRating();
+        res.render('posts/show', { post, floorRating });
 
     },
 

@@ -87,7 +87,6 @@ app.use('/users', usersRouter);
 
 // error handler
 app.use(function(err, req, res, next) {
-  console.log('testing err', err);
   req.session.error = err.message;
   res.redirect('back');
 });
