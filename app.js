@@ -17,6 +17,9 @@ const postsRouter = require('./routes/posts.route');
 const reviewsRouter = require('./routes/reviews.route');
 const usersRouter = require('./routes/users.route');
 
+const seedPosts = require('./seeds');
+// seedPosts();
+
 const User = require('./models/user.model');
 
 const app = express();

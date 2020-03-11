@@ -46,6 +46,13 @@
         background-color: rgba(238,232,213,0.125);;
         
     }
+
+    .truncate {
+        width: 85%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 </style>
 
 <div class="container">
@@ -59,9 +66,10 @@
                 return formatted;
             }
     %>
-        <% if (posts.length > 0) { %>
+        <% if (posts.docs.length > 0) { %>
+            <% include ../partials/paginate %>
         <div class="review-content">
-            <% posts.forEach(function(post) { %>
+            <% posts.docs.forEach(function(post) { %>
             <div class="container mb-3 border-bottom border-dark review-container p-4">
                 <div class="d-flex justify-content-end">
                     <a href="/posts/<%= post._id %>/edit" id="edit-review" class="mx-2 text-secondary edit-post"><i class="fa fa-pencil-square-o"></i></a>
@@ -69,7 +77,7 @@
                 </div>
                 <p class="lead review-id d-none"><%= post._id %></p>
                 <h3 class=""><%= post.title %></h3>
-                <p class="lead"><%= post.description %></p>
+                <p class="lead truncate"><%= post.description %></p>
                 <p class="lead">Location: <%= post.location %></p>
                 <p class="lead">Number of Reviews: &nbsp; <%= post.reviews.length %></p>
                 <div class="m-4">
@@ -84,6 +92,7 @@
             </div>
             <% }); %>
         </div>
+        <% include ../partials/paginate %>
     
         <% } else { %>
         <h4 class="mt-5">No Data Available!!!</h4>
